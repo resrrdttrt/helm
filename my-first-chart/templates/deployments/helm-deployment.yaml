@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment # change here
+metadata:
+  name: my-helm-deployments
+spec:
+  revisionHistoryLimit: 10 # change here (default is 10)
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: hello-helm
+  template:
+    metadata:
+      labels:
+        app: hello-helm
+    spec:
+      containers:
+      - image: {{ .Values.hello.image }}:{{ .Values.version }}
+        name: hello-helm
+        ports:
+          - containerPort: 3000
+        imagePullPolicy: Never
